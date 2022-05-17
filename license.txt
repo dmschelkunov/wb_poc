@@ -1,8 +1,8 @@
 wb_poc
 
-A practical implementation of the approach for designing fast public key encryption systems using white-box cryptography techniques
+A practical implmentation of the approach for designing fast public key encryption systems using white-box cryptography techniques
 
-Copyright Â© 2021 Dmitry Schelkunov. All rights reserved.
+Copyright © 2022 Dmitry Schelkunov. All rights reserved.
 Contacts: <d.schelkunov@gmail.com>, <schelkunov@re-crypt.com>
 
 

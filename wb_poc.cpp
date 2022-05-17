@@ -3,7 +3,7 @@
 //
 // Sample of usage
 //
-// Copyright © 2021 Dmitry Schelkunov. All rights reserved.
+// Copyright © 2022 Dmitry Schelkunov. All rights reserved.
 // Contacts: <d.schelkunov@gmail.com>, <schelkunov@re-crypt.com>
 //
 // This file is a part of wb_poc
@@ -29,7 +29,7 @@ using namespace NCipher;
 using namespace NSaveKeys;
 
 // Source message
-char msg[] = "Hello world!!!!";
+char msg[] = "This is fast white-box cipher!!";
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ bool test_encr_decr()
 	// Encrypt with a public key
 	for (int j = 0; j < CEncryption::tbox_size; ++j)
 	{
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 		{
 			crpt[j] ^= e->get_comb_tbxs()[i][msg[i]][j];
 		}
@@ -69,21 +69,21 @@ bool test_encr_decr()
 		}
 	}
 
-	uint8_t t1[16];
-	memset(t1, 0, 16);
-	for (int j = 0; j < 16; ++j)
+	uint8_t t1[CEncryption::comb_sbsts_num];
+	memset(t1, 0, CEncryption::comb_sbsts_num);
+	for (int j = 0; j < CEncryption::comb_sbsts_num; ++j)
 	{
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 		{
 			t1[j] ^= d->get_inv_comb_tbxs1()[i][t0[i]][j];
 		}
 	}
 
-	uint8_t t2[16];
-	memset(t2, 0, 16);
-	for (int j = 0; j < 16; ++j)
+	uint8_t t2[CEncryption::comb_sbsts_num];
+	memset(t2, 0, CEncryption::comb_sbsts_num);
+	for (int j = 0; j < CEncryption::comb_sbsts_num; ++j)
 	{
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 		{
 			t2[j] ^= d->get_final_tbxs()[i][t1[i]][j];
 		}
@@ -93,7 +93,7 @@ bool test_encr_decr()
 	delete d;
 
 	// Check
-	return !memcmp(msg, t2, 16);
+	return !memcmp(msg, t2, CEncryption::comb_sbsts_num);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ bool test_encr_decr_save_load()
 	// Encrypt with a public key
 	for (int j = 0; j < CEncryption::tbox_size; ++j)
 	{
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 		{
 			crpt[j] ^= pub_tbxs[i][msg[i]][j];
 		}
@@ -169,21 +169,21 @@ bool test_encr_decr_save_load()
 		}
 	}
 
-	uint8_t t1[16];
-	memset(t1, 0, 16);
-	for (int j = 0; j < 16; ++j)
+	uint8_t t1[CEncryption::comb_sbsts_num];
+	memset(t1, 0, CEncryption::comb_sbsts_num);
+	for (int j = 0; j < CEncryption::comb_sbsts_num; ++j)
 	{
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 		{
 			t1[j] ^= prv_tbxs1[i][t0[i]][j];
 		}
 	}
 
-	uint8_t t2[16];
-	memset(t2, 0, 16);
-	for (int j = 0; j < 16; ++j)
+	uint8_t t2[CEncryption::comb_sbsts_num];
+	memset(t2, 0, CEncryption::comb_sbsts_num);
+	for (int j = 0; j < CEncryption::comb_sbsts_num; ++j)
 	{
-		for (int i = 0; i < 16; ++i)
+		for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 		{
 			t2[j] ^= prv_tbxs0[i][t1[i]][j];
 		}
@@ -196,7 +196,7 @@ bool test_encr_decr_save_load()
 	delete e;
 
 	// Check
-	return !memcmp(msg, t2, 16);
+	return !memcmp(msg, t2, CEncryption::comb_sbsts_num);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -257,9 +257,9 @@ bool test_sign()
 	// For this PoC we use low 18 bits of SHA-256
 	for (unsigned int i = 0; i < 0x1000000; ++i)
 	{
-		msg_to_sign[16] = (unsigned char)i;
-		msg_to_sign[17] = (unsigned char)(i >> 8);
-		msg_to_sign[18] = (unsigned char)(i >> 16); // +1
+		msg_to_sign[32] = (unsigned char)i;
+		msg_to_sign[33] = (unsigned char)(i >> 8);
+		msg_to_sign[34] = (unsigned char)(i >> 16); // +1
 
 		NPrng::sha2(msg_to_sign, sizeof(msg_to_sign), hsh, sizeof(hsh));
 
@@ -276,21 +276,21 @@ bool test_sign()
 			}
 		}
 
-		uint8_t t1[16];
-		memset(t1, 0, 16);
-		for (int j = 0; j < 16; ++j)
+		uint8_t t1[CEncryption::comb_sbsts_num];
+		memset(t1, 0, CEncryption::comb_sbsts_num);
+		for (int j = 0; j < CEncryption::comb_sbsts_num; ++j)
 		{
-			for (int i = 0; i < 16; ++i)
+			for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 			{
 				t1[j] ^= prv_tbxs1[i][t0[i]][j];
 			}
 		}
 
-		uint8_t t2[16];
-		memset(t2, 0, 16);
-		for (int j = 0; j < 16; ++j)
+		uint8_t t2[CEncryption::comb_sbsts_num];
+		memset(t2, 0, CEncryption::comb_sbsts_num);
+		for (int j = 0; j < CEncryption::comb_sbsts_num; ++j)
 		{
-			for (int i = 0; i < 16; ++i)
+			for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 			{
 				t2[j] ^= prv_tbxs0[i][t1[i]][j];
 			}
@@ -302,7 +302,7 @@ bool test_sign()
 
 		for (int j = 0; j < CEncryption::tbox_size; ++j)
 		{
-			for (int i = 0; i < 16; ++i)
+			for (int i = 0; i < CEncryption::comb_sbsts_num; ++i)
 			{
 				crpt[j] ^= pub_tbxs[i][t2[i]][j];
 			}

@@ -2,7 +2,7 @@
 // savekeys.h
 // Save/Load keys
 //
-// Copyright © 2021 Dmitry Schelkunov. All rights reserved.
+// Copyright © 2022 Dmitry Schelkunov. All rights reserved.
 // Contacts: <d.schelkunov@gmail.com>, <schelkunov@re-crypt.com>
 //
 // This file is part of wb_poc.

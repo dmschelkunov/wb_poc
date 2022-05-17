@@ -2,7 +2,7 @@
 // cipher.h
 // Generator of a random cipher
 //
-// Copyright © 2021 Dmitry Schelkunov. All rights reserved.
+// Copyright © 2022 Dmitry Schelkunov. All rights reserved.
 // Contacts: <d.schelkunov@gmail.com>, <schelkunov@re-crypt.com>
 //
 // This file is a part of wb_poc
@@ -36,20 +36,20 @@ class CEncryption
 public:
 	enum
 	{
-		bit_size1 = 128,		// First binary matrix has 128x128 size
-		bit_size2 = 144,		// Second binary matrix has 144x144 size
-		sbst_size = 16,			// Volume of S-box (or T-box) table (2^sbx_elem_size)
-		sbsts_num = 32,			// Number of S-box (or T-box) tables
-		sbx_elem_size = 4,		// Size of S-box element (input word for every substitution)
-		comb_elem_size = 8,		// Size of combined element (input word for every substitution)
-		comb_sbsts_num = 16,	// Number of combined T-boxes
-		comb_sbst_size = 256	// Volume of combined S-box (or T-box) table (2^comb_elem_size)
+		bit_size1 = 256,					// First binary matrix has 128x128 size
+		bit_size2 = bit_size1 + 16,			// Second binary matrix has 144x144 size
+		sbst_size = 16,						// Volume of S-box (or T-box) table (2^sbx_elem_size)
+		sbsts_num = 64,						// Number of S-box (or T-box) tables
+		sbx_elem_size = 4,					// Size of S-box element (input word for every substitution)
+		comb_elem_size = 8,					// Size of combined element (input word for every substitution)
+		comb_sbsts_num = 32,				// Number of combined T-boxes
+		comb_sbst_size = 256				// Volume of combined S-box (or T-box) table (2^comb_elem_size)
 	};
 
 	enum
 	{
-		tbox_clear_size = 16,		// Size of T-box element without mix(in bytes)
-		tbox_size = 18				// Size of T-box element with mix(in bytes)
+		tbox_clear_size = 32,				// Size of T-box element without mix(in bytes)
+		tbox_size = 34						// Size of T-box element with mix(in bytes)
 	};
 
 	typedef uint8_t			subst_array[sbst_size];

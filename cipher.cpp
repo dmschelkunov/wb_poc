@@ -2,7 +2,7 @@
 // cipher.cpp
 // Generator of a random cipher
 //
-// Copyright © 2021 Dmitry Schelkunov. All rights reserved.
+// Copyright © 2022 Dmitry Schelkunov. All rights reserved.
 // Contacts: <d.schelkunov@gmail.com>, <schelkunov@re-crypt.com>
 //
 // This file is a part of wb_poc
